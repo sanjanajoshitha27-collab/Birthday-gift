@@ -1,0 +1,320 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ff5c93">
+  <title>Happy Birthday! 🎂</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+      overflow-x: hidden;
+      font-family: "Segoe UI", sans-serif;
+      color: white;
+      background: linear-gradient(
+        135deg, #ff758c, #ff7eb3, #a18cd1, #fbc2eb
+      );
+      background-size: 300% 300%;
+      animation: gradient 10s ease infinite;
+    }
+
+    @keyframes gradient {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .container {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px 16px;
+      text-align: center;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 520px;
+      padding: clamp(24px, 7vw, 42px) 22px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.17);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      box-shadow: 0 15px 50px rgba(100, 30, 80, 0.2);
+      animation: appear 1s ease;
+    }
+
+    @keyframes appear {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 7px 15px;
+      border-radius: 50px;
+      background: rgba(255, 255, 255, 0.22);
+      font-size: 13px;
+      letter-spacing: 2px;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-size: clamp(2.1rem, 9vw, 3.5rem);
+      line-height: 1.15;
+      text-shadow: 0 3px 15px rgba(130, 20, 90, 0.2);
+    }
+
+    h1 span {
+      display: block;
+      color: #fff5a6;
+    }
+
+    .cake {
+      font-size: clamp(75px, 22vw, 110px);
+      margin: 18px 0;
+      display: inline-block;
+      filter: drop-shadow(0 10px 12px rgba(90, 20, 60, 0.2));
+      animation: bounce 1.8s infinite ease-in-out;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0) rotate(-3deg); }
+      50% { transform: translateY(-12px) rotate(3deg); }
+    }
+
+    .message {
+      max-width: 400px;
+      margin: 0 auto 24px;
+      font-size: clamp(15px, 4vw, 18px);
+      line-height: 1.8;
+      color: #fffafd;
+    }
+
+    .name {
+      color: #fff5a6;
+      font-weight: 800;
+    }
+
+    button {
+      min-height: 50px;
+      border: none;
+      border-radius: 50px;
+      padding: 14px 27px;
+      margin: 5px;
+      background: #fff;
+      color: #e84383;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(100, 20, 60, 0.18);
+      transition: transform 0.2s, box-shadow 0.2s;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(100, 20, 60, 0.25);
+    }
+
+    button:active {
+      transform: scale(0.96);
+    }
+
+    .surprise {
+      display: none;
+      margin: 24px auto 0;
+      padding: 20px 16px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.16);
+      line-height: 1.8;
+      animation: appear 0.7s ease;
+    }
+
+    .surprise.show {
+      display: block;
+    }
+
+    .surprise h2 {
+      margin-bottom: 8px;
+      color: #fff5a6;
+      font-size: 24px;
+    }
+
+    .footer {
+      margin-top: 24px;
+      font-size: 12px;
+      opacity: 0.85;
+      letter-spacing: 1px;
+    }
+
+    #confetti-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    @media (max-width: 380px) {
+      .card { padding: 26px 16px; }
+      .tag { font-size: 11px; }
+      button { width: 100%; margin: 5px 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="confetti-canvas" aria-hidden="true"></canvas>
+
+  <main class="container">
+    <section class="card">
+      <div class="tag">✨ A SPECIAL DAY ✨</div>
+
+      <h1>
+        Happy Birthday
+        <span id="birthdayName">Bestie!</span>
+      </h1>
+
+      <div class="cake" aria-label="Birthday cake">🎂</div>
+
+      <p class="message">
+        Today is all about YOU! 💖<br>
+        May your life be filled with endless happiness,
+        beautiful memories, lots of love, and dreams
+        that come true. Keep smiling and shining! ✨
+      </p>
+
+      <button id="surpriseBtn" type="button">
+        🎁 Open Your Surprise
+      </button>
+
+      <button id="partyBtn" type="button">
+        🎉 More Confetti!
+      </button>
+
+      <div class="surprise" id="surprise" aria-live="polite">
+        <h2>💝 A Little Wish For You</h2>
+        May every candle you blow bring a new dream
+        closer to reality. May your heart always find
+        reasons to smile. You deserve all the wonderful
+        things life has to offer! 🥳🌸
+        <p style="font-size: 27px; margin-top: 12px;">
+          💖 🎈 🌟 🎁 💖
+        </p>
+      </div>
+
+      <div class="footer">
+        MADE WITH ❤️ JUST FOR YOU
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <script>
+    // ✏️ Change this to the birthday person's name.
+    const birthdayPerson = "Bestie";
+    document.getElementById("birthdayName").textContent =
+      birthdayPerson + "!";
+
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    // Launch a colorful burst of confetti.
+    function celebrate() {
+      if (typeof confetti !== "function") {
+        alert("Happy Birthday! 🎂🎉");
+        return;
+      }
+
+      confetti({
+        particleCount: reducedMotion ? 45 : 120,
+        spread: 90,
+        origin: { y: 0.6 },
+        colors: [
+          "#ff1744", "#ffd600", "#00e5ff",
+          "#ffffff", "#e040fb", "#69f0ae"
+        ],
+        disableForReducedMotion: true
+      });
+    }
+
+    // Celebrate automatically when the page opens.
+    window.addEventListener("load", () => {
+      if (!reducedMotion) {
+        setTimeout(celebrate, 400);
+      }
+    });
+
+    // Reveal the hidden birthday message.
+    document.getElementById("surpriseBtn").addEventListener(
+      "click", () => {
+        const surprise = document.getElementById("surprise");
+        surprise.classList.add("show");
+        celebrate();
+
+        document.getElementById("surpriseBtn").textContent =
+          "💖 Surprise Opened!";
+      }
+    );
+
+    // Extra party confetti with side cannons.
+    document.getElementById("partyBtn").addEventListener(
+      "click", () => {
+        if (typeof confetti !== "function") {
+          celebrate();
+          return;
+        }
+
+        const end = Date.now() + (reducedMotion ? 100 : 1600);
+
+        (function frame() {
+          confetti({
+            particleCount: 5,
+            angle: 60,
+            spread: 60,
+            origin: { x: 0, y: 0.7 },
+            colors: ["#ff1744", "#ffd600", "#00e5ff"],
+            disableForReducedMotion: true
+          });
+
+          confetti({
+            particleCount: 5,
+            angle: 120,
+            spread: 60,
+            origin: { x: 1, y: 0.7 },
+            colors: ["#e040fb", "#69f0ae", "#ffffff"],
+            disableForReducedMotion: true
+          });
+
+          if (Date.now() < end && !reducedMotion) {
+            requestAnimationFrame(frame);
+          }
+        })();
+      }
+    );
+  </script>
+</body>
+</html>
